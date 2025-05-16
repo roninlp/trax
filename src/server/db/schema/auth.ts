@@ -53,9 +53,9 @@ export const verification = sqliteTable("verification", {
 	value: text().notNull(),
 	expiresAt: integer({ mode: "timestamp" }).notNull(),
 	createdAt: integer({ mode: "timestamp" }).$defaultFn(
-		() => /* @__PURE__ */ new Date()
+		() => /* @__PURE__ */ new Date(),
 	),
 	updatedAt: integer({ mode: "timestamp" }).$defaultFn(
-		() => /* @__PURE__ */ new Date()
+		() => /* @__PURE__ */ new Date(),
 	),
 });
