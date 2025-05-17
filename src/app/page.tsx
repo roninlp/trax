@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 import { SignIn } from "@/components/signin";
-import { HydrateClient } from "@/trpc/server";
+import { HydrationBoundary } from "@tanstack/react-query";
 
 export default async function Home() {
 	return (
-		<HydrateClient>
+		<HydrationBoundary>
 			<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
 				<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
 					<h1 className="font-extrabold text-5xl tracking-tight sm:text-[5rem]">
@@ -39,6 +39,6 @@ export default async function Home() {
 					<SignIn />
 				</div>
 			</main>
-		</HydrateClient>
+		</HydrationBoundary>
 	);
 }
