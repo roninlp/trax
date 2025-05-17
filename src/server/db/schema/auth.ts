@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
@@ -16,6 +17,11 @@ export const user = sqliteTable("user", {
 		.notNull(),
 });
 
+export const userRelations = relations(user, ({ many }) => ({
+	accounts: many(account),
+	sessions: many(session),
+}));
+
 export const session = sqliteTable("session", {
 	id: text().primaryKey(),
 	expiresAt: integer({ mode: "timestamp" }).notNull(),
@@ -29,6 +35,13 @@ export const session = sqliteTable("session", {
 		.references(() => user.id, { onDelete: "cascade" }),
 });
 
+export const sessionRelations = relations(session, ({ one }) => ({
+	user: one(user, {
+		fields: [session.userId],
+		references: [user.id],
+	}),
+}));
+
 export const account = sqliteTable("account", {
 	id: text().primaryKey(),
 	accountId: text().notNull(),
@@ -39,13 +52,24 @@ export const account = sqliteTable("account", {
 	accessToken: text(),
 	refreshToken: text(),
 	idToken: text(),
-	accessTokenExpiresAt: integer(),
-	refreshTokenExpiresAt: integer(),
+	accessTokenExpiresAt: integer({
+		mode: "timestamp",
+	}),
+	refreshTokenExpiresAt: integer({
+		mode: "timestamp",
+	}),
 	scope: text(),
 	password: text(),
 	createdAt: integer({ mode: "timestamp" }).notNull(),
 	updatedAt: integer({ mode: "timestamp" }).notNull(),
 });
+
+export const accountRelations = relations(account, ({ one }) => ({
+	user: one(user, {
+		fields: [account.userId],
+		references: [user.id],
+	}),
+}));
 
 export const verification = sqliteTable("verification", {
 	id: text().primaryKey(),

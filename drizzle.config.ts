@@ -8,5 +8,6 @@ export default {
 	casing: "snake_case",
 	dbCredentials: {
 		url: env.DATABASE_URL,
+		authToken: env.DATABASE_AUTH_TOKEN,
 	},
 } satisfies Config;
