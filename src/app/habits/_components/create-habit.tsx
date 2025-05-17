@@ -10,15 +10,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { habitInsertSchema } from "@/server/db/schema";
-import { api } from "@/trpc/react";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 const CreateHabit = () => {
-	const { mutate, isPending } = api.habit.create.useMutation({
-		onSuccess: () => {},
-	});
+	const api = useTRPC();
+	const client = useQueryClient();
+	const { mutate, isPending } = useMutation(api.habit.create.mutationOptions());
 	const form = useForm<z.infer<typeof habitInsertSchema>>({
 		defaultValues: {
 			name: "",
@@ -35,6 +36,9 @@ const CreateHabit = () => {
 			<form
 				onSubmit={form.handleSubmit((values) => {
 					mutate(values);
+					client.invalidateQueries({
+						queryKey: api.habit.getAll.queryKey(),
+					});
 				})}
 			>
 				<FormField

@@ -29,6 +29,8 @@ export const habitInsertSchema = createInsertSchema(habit).omit({
 	userId: true,
 });
 
+export type Habit = typeof habit.$inferSelect;
+
 export const habitRelations = relations(habit, ({ one }) => ({
 	user: one(user, {
 		fields: [habit.userId],

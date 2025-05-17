@@ -1,15 +1,18 @@
 "use client";
 
-import { api } from "@/trpc/react";
+import { useTRPC } from "@/trpc/react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { HabitItem } from "./habit";
 
 const HabitsList = () => {
-	const [habits] = api.habit.getAll.useSuspenseQuery();
+	const api = useTRPC();
+	const { data: habits } = useSuspenseQuery(api.habit.getAll.queryOptions());
 	return (
 		<div className="flex flex-col gap-4">
 			<div>HabitsList</div>
 			<ul className="flex flex-col gap-2">
 				{habits.map((habit) => (
-					<li key={habit.id}>{habit.name}</li>
+					<HabitItem key={habit.id} habit={habit} />
 				))}
 			</ul>
 		</div>

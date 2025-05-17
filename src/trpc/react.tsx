@@ -14,8 +14,7 @@ import type { AppRouter } from "@/server/api/root";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import { createQueryClient } from "./query-client";
 
-export const { TRPCProvider, useTRPC, useTRPCClient } =
-	createTRPCContext<AppRouter>();
+export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
