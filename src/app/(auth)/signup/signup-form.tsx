@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/libs/auth-client";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 const signUpSchema = z.object({
 	name: z.string(),
-	email: z.string().email(),
-	password: z.string().min(8),
+	email: z.email(),
+	password: z.string().check(z.minLength(8)),
 });
 
 export function SignUpForm() {
@@ -28,7 +28,7 @@ export function SignUpForm() {
 			password: "",
 			name: "",
 		},
-		resolver: zodResolver(signUpSchema),
+		resolver: standardSchemaResolver(signUpSchema),
 	});
 
 	return (

@@ -11,10 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { habitInsertSchema } from "@/server/db/schema";
 import { useTRPC } from "@/trpc/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import type { z } from "zod/v4-mini";
 
 const CreateHabit = () => {
 	const api = useTRPC();
@@ -29,7 +29,7 @@ const CreateHabit = () => {
 			frequency: 1,
 			startDate: new Date(),
 		},
-		resolver: zodResolver(habitInsertSchema),
+		resolver: standardSchemaResolver(habitInsertSchema),
 	});
 	return (
 		<Form {...form}>

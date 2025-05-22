@@ -6,7 +6,7 @@ import {
 	habitInsertSchema,
 } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const habitRouter = createTRPCRouter({
 	getAll: protectedProcedure.query(async ({ ctx }) => {
